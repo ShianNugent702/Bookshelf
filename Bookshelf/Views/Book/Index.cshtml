@@ -1,0 +1,32 @@
+﻿@model List<Bookshelf.Models.Book>
+
+<h1>My Shelf</h1>
+<p>@Model.Count(b => b.IsRead) of @Model.Count read.</p>
+
+<div class="row">
+    @foreach (var book in Model)
+    {
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@book.Title</h5>
+                    <p class="card-text">By @book.Author</p>
+                    <p class="card-text"><small class="text-muted">@book.Pages pages</small></p>
+
+                    @if (book.IsRead)
+                    {
+                        <span class="badge bg-success">Read</span>
+                    }
+                    else
+                    {
+                        <form asp-action="MarkAsRead" method="post">
+                            <input type="hidden" name="id" value="@book.Id" />
+                            <button type="submit" class="btn btn-primary btn-sm">Mark as read</button>
+                        </form>
+                    }
+                    <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-outline-secondary btn-sm mt-2">Details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
